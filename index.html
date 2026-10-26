@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- ============ Primary SEO ============ -->
+  <title>OINST — Vehicle RC, Phone, UPI, PAN, Telegram &amp; Aadhaar Intelligence Lookup</title>
+  <meta name="description" content="OINST is a unified intelligence dashboard for 14 lookups — Vehicle RC, Vehicle Info, Challan, Phone Info, Number, HP, UPI, PAN, PAN v2, Telegram, Family, Aadhaar and a master All report. Enter an ID, get a clean, human-readable report instantly." />
+  <meta name="keywords" content="OINST, vehicle RC lookup, vehicle info, vehicle challan, phone info, number lookup, HP lookup, UPI verification, PAN lookup, PAN v2, telegram lookup, family lookup, aadhaar lookup, oinst.kryzo.space, vehicle intelligence, number intelligence, OSINT India" />
+  <meta name="author" content="OINST" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="googlebot" content="index, follow" />
+  <meta name="rating" content="general" />
+  <meta name="theme-color" content="#04060d" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="application-name" content="OINST" />
+  <meta name="generator" content="Vanilla HTML + CSS + JS" />
+  <link rel="canonical" href="https://oinst.kryzo.space/" />
+
+  <!-- ============ Open Graph ============ -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="OINST" />
+  <meta property="og:title" content="OINST — 14-in-1 Vehicle, Phone, UPI, PAN &amp; Identity Intelligence Lookup" />
+  <meta property="og:description" content="One dashboard, 14 intelligence lookups. Vehicle RC, Challan, Phone, UPI, PAN, Telegram, Aadhaar &amp; more — raw API responses automatically formatted into a clean, readable report." />
+  <meta property="og:url" content="https://oinst.kryzo.space/" />
+  <meta property="og:locale" content="en_IN" />
+  <meta property="og:image" content="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=Dark%20futuristic%20cyber%20intelligence%20control%20room%20dashboard%2C%20deep%20navy%20blue%20background%2C%20glowing%20sky%20blue%20holographic%20data%20panels%2C%20car%20license%20plate%20and%20digital%20identity%20cards%2C%20premium%20tech%20aesthetic%2C%20cinematic%20lighting%2C%20high%20detail&image_size=landscape_16_9" />
+  <meta property="og:image:secure_url" content="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=Dark%20futuristic%20cyber%20intelligence%20control%20room%20dashboard%2C%20deep%20navy%20blue%20background%2C%20glowing%20sky%20blue%20holographic%20data%20panels%2C%20car%20license%20plate%20and%20digital%20identity%20cards%2C%20premium%20tech%20aesthetic%2C%20cinematic%20lighting%2C%20high%20detail&image_size=landscape_16_9" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="OINST — unified vehicle and identity intelligence dashboard" />
+
+  <!-- ============ Twitter / X ============ -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@oinst" />
+  <meta name="twitter:creator" content="@oinst" />
+  <meta name="twitter:title" content="OINST — 14-in-1 Vehicle, Phone, UPI, PAN &amp; Identity Intelligence Lookup" />
+  <meta name="twitter:description" content="Vehicle RC, Challan, Phone, UPI, PAN, Telegram, Aadhaar and more — raw API responses auto-formatted into a clean, readable report." />
+  <meta name="twitter:image" content="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=Dark%20futuristic%20cyber%20intelligence%20control%20room%20dashboard%2C%20deep%20navy%20blue%20background%2C%20glowing%20sky%20blue%20holographic%20data%20panels%2C%20car%20license%20plate%20and%20digital%20identity%20cards%2C%20premium%20tech%20aesthetic%2C%20cinematic%20lighting%2C%20high%20detail&image_size=landscape_16_9" />
+  <meta name="twitter:image:alt" content="OINST intelligence dashboard" />
+
+  <!-- ============ Icons ============ -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23070b16'/%3E%3Ccircle cx='32' cy='32' r='15' fill='none' stroke='%2338bdf8' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%232563eb'/%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23070b16'/%3E%3Ccircle cx='32' cy='32' r='15' fill='none' stroke='%2338bdf8' stroke-width='5'/%3E%3C/svg%3E" />
+
+  <!-- ============ Fonts ============ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- ============ Tailwind (CDN, utilities only) ============ -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Guarded: the site stays fully functional if the CDN is blocked.
+    if (window.tailwind) {
+      tailwind.config = {
+        corePlugins: { preflight: false },
+        theme: {
+          extend: {
+            colors: {
+              oinst: { navy: '#070b16', blue: '#1d4ed8', sky: '#38bdf8' },
+            },
+          },
+        },
+      };
+    }
+  </script>
+
+  <!-- Custom theme (loaded last so it always wins) -->
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+
+  <!-- ============ Structured data ============ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "OINST",
+    "url": "https://oinst.kryzo.space/",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript",
+    "description": "Unified intelligence dashboard offering 14 lookups: Vehicle RC, Vehicle Info, Vehicle Challan, Vehicle All, Phone Info, Number, HP, UPI, PAN, PAN v2, Telegram, Family, Aadhaar and a master All report.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+    "featureList": [
+      "Vehicle RC lookup",
+      "Vehicle Info lookup",
+      "Vehicle Challan lookup",
+      "Phone Info lookup",
+      "Number lookup",
+      "HP lookup",
+      "UPI verification",
+      "PAN lookup",
+      "PAN v2 lookup",
+      "Telegram lookup",
+      "Family lookup",
+      "Aadhaar lookup",
+      "Master All report"
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  <div class="shell">
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="topbar">
+      <div class="wrap" style="display:flex;align-items:center;gap:18px;padding-top:12px;padding-bottom:12px;">
+        <a href="#top" style="display:flex;align-items:center;gap:11px;text-decoration:none;">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+              <circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none"/>
+            </svg>
+          </span>
+          <span>
+            <span style="display:block;font-size:17px;font-weight:800;letter-spacing:-0.02em;color:#fff;line-height:1.1;">OINST</span>
+            <span style="display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--sky-400);font-weight:700;">Intelligence Suite</span>
+          </span>
+        </a>
+
+        <nav class="pill-nav" id="pillNav" aria-label="Lookup sections" style="margin-left:auto;max-width:100%;"></nav>
+      </div>
+    </header>
+
+    <main id="top">
+
+      <!-- ================= HERO ================= -->
+      <section class="wrap" style="padding-top:52px;padding-bottom:34px;">
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:18px;">
+          <span class="tag"><span aria-hidden="true">●</span> 14 Live Lookups</span>
+          <span class="tag"><span aria-hidden="true">●</span> Raw → Readable Instantly</span>
+          <span class="tag"><span aria-hidden="true">●</span> Zero Key Exposure</span>
+        </div>
+
+        <h1 style="margin:0;font-size:clamp(30px,5.4vw,56px);line-height:1.05;font-weight:800;letter-spacing:-0.035em;">
+          One dashboard for<br />
+          <span class="grad-text">vehicle, number &amp; identity</span><br />
+          intelligence.
+        </h1>
+
+        <p style="margin:18px 0 0;max-width:660px;font-size:15px;line-height:1.7;color:var(--text-mid);">
+          Pick a lookup, enter the ID, and OINST fetches the raw provider response and instantly
+          re-renders it as a clean, labelled report — nested objects, arrays and records all
+          formatted for reading, with the untouched raw JSON always one click away.
+        </p>
+
+        <!-- Stat strip -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:30px;">
+          <div class="stat"><b>14</b><span>Lookup tools</span></div>
+          <div class="stat"><b>1</b><span>Server-side API key</span></div>
+          <div class="stat"><b>100%</b><span>Auto-formatted output</span></div>
+          <div class="stat"><b>0</b><span>Keys in the browser</span></div>
+        </div>
+
+        <!-- Security note -->
+        <div class="glass" style="margin-top:22px;padding:16px 18px;display:flex;gap:13px;align-items:flex-start;">
+          <span class="tool-icon" style="width:38px;height:38px;" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.6-3.2 8.2-8 9.8C7.2 20.2 4 16.6 4 12V6z"/><path d="m9 12 2 2 4-4.5"/></svg>
+          </span>
+          <div>
+            <p style="margin:0;font-size:13px;font-weight:700;color:var(--text-hi);">Your API key never touches the browser.</p>
+            <p style="margin:5px 0 0;font-size:12.5px;line-height:1.6;color:var(--text-mid);">
+              Every request is proxied through a serverless function that injects the key from an
+              environment variable (<code class="v-mono" style="color:var(--sky-300);">OINST_API_KEY</code>) —
+              so it can't be scraped from the page source, JS bundle or DevTools.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TOOL SECTIONS ================= -->
+      <section class="wrap" style="padding-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:14px;margin:12px 0 22px;">
+          <span class="eyebrow">The 14 Lookups</span>
+          <span class="divider" style="flex:1;"></span>
+        </div>
+        <div id="sections" style="display:grid;gap:20px;"></div>
+      </section>
+
+      <!-- ================= FAQ ================= -->
+      <section class="wrap" style="padding:44px 0 8px;">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
+          <span class="eyebrow">Good to know</span>
+          <span class="divider" style="flex:1;"></span>
+        </div>
+        <div style="display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));">
+          <div class="glass" style="padding:20px;">
+            <h3 style="margin:0 0 8px;font-size:14.5px;font-weight:700;">How does the formatting work?</h3>
+            <p style="margin:0;font-size:12.8px;line-height:1.7;color:var(--text-mid);">
+              Responses are parsed and walked recursively. Objects become label/value rows, arrays of
+              records become numbered cards, simple lists become chips, and URLs, emails, phone
+              numbers, dates and images are rendered as the right element automatically.
+            </p>
+          </div>
+          <div class="glass" style="padding:20px;">
+            <h3 style="margin:0 0 8px;font-size:14.5px;font-weight:700;">Do I need the raw data?</h3>
+            <p style="margin:0;font-size:12.8px;line-height:1.7;color:var(--text-mid);">
+              Every result keeps a “Show raw response” toggle with syntax-highlighted JSON, plus
+              one-click copy and download as <code class="v-mono" style="color:var(--sky-300);">.json</code>.
+            </p>
+          </div>
+          <div class="glass" style="padding:20px;">
+            <h3 style="margin:0 0 8px;font-size:14.5px;font-weight:700;">Where are the keys stored?</h3>
+            <p style="margin:0;font-size:12.8px;line-height:1.7;color:var(--text-mid);">
+              In Vercel’s environment variables, read only by the serverless proxy. Locally, use a
+              git-ignored <code class="v-mono" style="color:var(--sky-300);">.env.local</code> file.
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer style="margin-top:56px;border-top:1px solid var(--line);background:rgba(4,6,13,.7);">
+      <div class="wrap" style="padding:30px 20px;display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:11px;">
+          <span class="brand-mark" style="width:32px;height:32px;border-radius:10px;" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none"/></svg>
+          </span>
+          <div>
+            <p style="margin:0;font-size:13.5px;font-weight:700;color:#fff;">OINST</p>
+            <p style="margin:2px 0 0;font-size:11.5px;color:var(--text-low);">
+              Served from <span id="hostLabel" class="v-mono" style="color:var(--sky-300);">oinst.kryzo.space</span>
+            </p>
+          </div>
+        </div>
+
+        <p style="margin:0;max-width:520px;font-size:11.5px;line-height:1.7;color:var(--text-low);">
+          Data is returned by a third-party provider and may be incomplete or outdated. Use OINST only
+          for lawful, authorised verification purposes — never for stalking, harassment or any activity
+          prohibited by law. Always comply with applicable regulations.
+        </p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Toast host -->
+  <div class="toast-host" id="toastHost" aria-live="polite"></div>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="/assets/js/config.js"></script>
+  <script src="/assets/js/app.js"></script>
+</body>
+</html>

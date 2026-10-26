@@ -1,0 +1,14 @@
+{
+  "name": "oinst",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OINST — Vehicle, Phone, UPI, PAN, Telegram & Identity intelligence lookup dashboard.",
+  "homepage": "https://oinst.kryzo.space",
+  "engines": {
+    "node": ">=18.x"
+  },
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  }
+}
