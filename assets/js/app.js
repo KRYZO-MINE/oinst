@@ -316,81 +316,82 @@
     icon.innerHTML = svg(tool.icon);
     head.appendChild(icon);
 
-    const meta = el('div');
-    meta.style.flex = '1';
-    meta.style.minWidth = '0';
-
-    const titleRow = el('div');
-    titleRow.style.display = 'flex';
-    titleRow.style.alignItems = 'center';
-    titleRow.style.gap = '10px';
-    titleRow.style.flexWrap = 'wrap';
+    const info = el('div', 'tool-info');
+    info.style.flex = '1';
 
     const h2 = el('h2', '', tool.label);
-    h2.style.margin = '0';
-    h2.style.fontSize = '19px';
-    h2.style.fontWeight = '800';
-    h2.style.letterSpacing = '-0.01em';
-    titleRow.appendChild(h2);
+    info.appendChild(h2);
 
-    const badge = el('span', 'cmd-badge', 'cmd=' + tool.cmd);
-    titleRow.appendChild(badge);
+    const badges = el('div', 'badges');
+    badges.appendChild(el('span', 'cmd-badge', 'cmd=' + tool.cmd));
+    badges.appendChild(el('span', 'eyebrow', tool.tagline));
+    info.appendChild(badges);
+    
+    head.appendChild(info);
 
-    const tag = el('span', 'eyebrow', tool.tagline);
-    tag.style.fontSize = '10px';
-    titleRow.appendChild(tag);
+    const backBtn = el('button', 'btn btn-ghost btn-xs');
+    backBtn.style.padding = '8px 12px';
+    backBtn.innerHTML = svg('globe') + '<span>Back</span>';
+    backBtn.addEventListener('click', () => showSection('home'));
+    head.appendChild(backBtn);
 
-    meta.appendChild(titleRow);
-
-    const desc = el('p', '', tool.description);
-    desc.style.margin = '6px 0 0';
-    desc.style.fontSize = '13px';
-    desc.style.lineHeight = '1.55';
-    desc.style.color = 'var(--text-mid)';
-    meta.appendChild(desc);
-
-    head.appendChild(meta);
     section.appendChild(head);
 
     // ---- Form ----
     const body = el('div');
-    body.style.padding = '18px 20px 20px';
+    body.style.padding = '32px';
+
+    const desc = el('p', '', tool.description);
+    desc.style.margin = '0 0 24px';
+    desc.style.fontSize = '15px';
+    desc.style.lineHeight = '1.6';
+    desc.style.color = 'var(--text-mid)';
+    body.appendChild(desc);
 
     const form = el('form');
-    form.style.display = 'grid';
-    form.style.gridTemplateColumns = '1fr auto auto';
-    form.style.gap = '10px';
-    form.style.alignItems = 'start';
+    form.style.display = 'flex';
+    form.style.flexDirection = 'column';
+    form.style.gap = '20px';
 
-    const inputWrap = el('div');
+    const inputGroup = el('div');
+    inputGroup.style.position = 'relative';
+
     const input = el('input', 'field');
     input.type = 'text';
     input.name = 'query';
     input.placeholder = tool.placeholder;
     input.autocomplete = 'off';
-    input.spellcheck = false;
-    input.inputMode = rule.mode === 'numeric' ? 'numeric' : 'text';
-    input.setAttribute('aria-label', tool.label + ' query');
-    inputWrap.appendChild(input);
+    input.style.fontSize = '16px';
+    input.style.padding = '16px 20px';
+    input.style.borderRadius = '16px';
+    inputGroup.appendChild(input);
 
     const help = el('div', '', 'e.g. ' + tool.example + '  ·  ' + rule.hint);
-    help.style.fontSize = '11px';
+    help.style.fontSize = '12px';
     help.style.color = 'var(--text-low)';
-    help.style.marginTop = '7px';
-    inputWrap.appendChild(help);
+    help.style.marginTop = '10px';
+    inputGroup.appendChild(help);
+    form.appendChild(inputGroup);
+
+    const actions = el('div');
+    actions.style.display = 'flex';
+    actions.style.gap = '12px';
 
     const submit = el('button', 'btn-fetch');
     submit.type = 'submit';
+    submit.style.flex = '1';
     submit.setAttribute('aria-label', 'Fetch ' + tool.label);
-    submit.innerHTML = svg('bolt') + '<span>Fetch</span>';
+    submit.innerHTML = svg('bolt') + '<span>Fetch Data</span>';
 
     const reset = el('button', 'btn btn-ghost');
     reset.type = 'button';
+    reset.style.padding = '0 20px';
+    reset.style.borderRadius = '12px';
     reset.innerHTML = svg('reset');
 
-    form.appendChild(inputWrap);
-    form.appendChild(submit);
-    form.appendChild(reset);
+    actions.appendChild(submit);
+    actions.appendChild(reset);
+    form.appendChild(actions);
     body.appendChild(form);
 
     // ---- Output ----
@@ -690,6 +691,44 @@
   // The nav is always a hamburger: this flips the panel open/closed.
   let setNavOpen = () => {};
 
+  function showSection(id) {
+    const sections = document.querySelectorAll('.tool');
+    const dividers = document.querySelectorAll('#sections > .divider');
+    const homeContent = document.getElementById('homeContent');
+    const target = document.getElementById(id);
+    
+    if (id === 'home' || !id) {
+      sections.forEach(s => s.style.display = 'none');
+      dividers.forEach(d => d.style.display = 'none');
+      if (homeContent) homeContent.style.display = 'block';
+      
+      const pills = document.querySelectorAll('.pill');
+      pills.forEach(p => p.classList.remove('is-active'));
+      history.replaceState(null, '', '/');
+      return;
+    }
+
+    if (!target) return;
+
+    sections.forEach(s => s.style.display = 'none');
+    dividers.forEach(d => d.style.display = 'none');
+    if (homeContent) homeContent.style.display = 'none';
+    
+    target.style.display = 'block';
+    target.classList.add('fade-in');
+    
+    // Update active state in nav
+    const pills = document.querySelectorAll('.pill');
+    pills.forEach(p => {
+      if (p.dataset.target === id) p.classList.add('is-active');
+      else p.classList.remove('is-active');
+    });
+
+    history.replaceState(null, '', '#' + id);
+    const input = target._parts.input;
+    if (input) setTimeout(() => input.focus({ preventScroll: true }), 450);
+  }
+
   function wireBurger() {
     const btn = document.getElementById('burgerBtn');
     const nav = document.getElementById('pillNav');
@@ -730,10 +769,7 @@
       b.dataset.target = tool.id;
       b.addEventListener('click', () => {
         setNavOpen(false);
-        document.getElementById(tool.id).scrollIntoView({ behavior: 'smooth', block: 'start' });
-        history.replaceState(null, '', '#' + tool.id);
-        const input = document.getElementById(tool.id)._parts.input;
-        setTimeout(() => input.focus({ preventScroll: true }), 450);
+        showSection(tool.id);
       });
       nav.appendChild(b);
     });
@@ -746,24 +782,6 @@
       if (i > 0) host.appendChild(el('div', 'divider'));
       host.appendChild(buildSection(tool));
     });
-  }
-
-  function observeSections() {
-    const pills = Array.from(document.querySelectorAll('.pill'));
-    const byId = new Map(pills.map((p) => [p.dataset.target, p]));
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          pills.forEach((p) => p.classList.remove('is-active'));
-          const active = byId.get(entry.target.id);
-          if (active) active.classList.add('is-active');
-        });
-      },
-      { rootMargin: '-45% 0px -50% 0px', threshold: 0 }
-    );
-    document.querySelectorAll('.tool').forEach((s) => io.observe(s));
   }
 
   // Splash overlay is decorative: keep it up for ~2-3s, then fade out.
@@ -790,6 +808,15 @@
   }
 
   function init() {
+    // Logo click to go home
+    const logo = document.querySelector('.topbar a');
+    if (logo) {
+      logo.addEventListener('click', (e) => {
+        e.preventDefault();
+        showSection('home');
+      });
+    }
+
     // Live host in the footer
     const hostLabel = document.getElementById('hostLabel');
     if (hostLabel) hostLabel.textContent = location.host || 'oinst.kryzo.space';
@@ -802,14 +829,10 @@
     wireBurger();
     buildNav();
     buildSections();
-    observeSections();
 
-    // Deep link: /#number
+    // Deep link or default to first tool
     const hash = location.hash.replace('#', '');
-    if (hash) {
-      const target = document.getElementById(hash);
-      if (target) setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 250);
-    }
+    showSection(hash || (TOOLS[0] ? TOOLS[0].id : null));
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
