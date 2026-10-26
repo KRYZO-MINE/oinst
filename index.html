@@ -40,9 +40,14 @@
   <meta name="twitter:image" content="https://oinst.kryzo.space/og-image.jpg" />
   <meta name="twitter:image:alt" content="OINST intelligence dashboard" />
 
-  <!-- ============ Icons ============ -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23070b16'/%3E%3Ccircle cx='32' cy='32' r='15' fill='none' stroke='%2338bdf8' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%232563eb'/%3E%3C/svg%3E" />
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23070b16'/%3E%3Ccircle cx='32' cy='32' r='15' fill='none' stroke='%2338bdf8' stroke-width='5'/%3E%3C/svg%3E" />
+  <!-- ============ Favicons ============ -->
+  <link rel="icon" href="/favicon/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+  <link rel="manifest" href="/favicon/site.webmanifest" />
+  <meta name="msapplication-TileColor" content="#070b16" />
+  <meta name="msapplication-TileImage" content="/favicon/android-chrome-192x192.png" />
 
   <!-- ============ Fonts ============ -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -69,6 +74,9 @@
 
   <!-- Custom theme (loaded last so it always wins) -->
   <link rel="stylesheet" href="/assets/css/styles.css" />
+
+  <!-- The splash overlay is decorative; never let it trap users without JS -->
+  <noscript><style>#splash { display: none !important; }</style></noscript>
 
   <!-- ============ Structured data ============ -->
   <script type="application/ld+json">
@@ -102,6 +110,14 @@
 </head>
 
 <body>
+  <!-- ================= SPLASH LOADER (auto-hides after ~2-3s) ================= -->
+  <div id="splash" role="status" aria-label="Loading OINST">
+    <div class="loader">
+      <div class="circle"></div>
+    </div>
+    <p class="splash-label">OINST<span>Intelligence Suite</span></p>
+  </div>
+
   <div class="shell">
 
     <!-- ================= NAVBAR ================= -->
@@ -119,7 +135,12 @@
           </span>
         </a>
 
-        <nav class="pill-nav" id="pillNav" aria-label="Lookup sections" style="margin-left:auto;max-width:100%;"></nav>
+        <div style="margin-left:auto;position:relative;">
+          <button class="burger" id="burgerBtn" type="button" aria-label="Open lookup menu" aria-expanded="false" aria-controls="pillNav">
+            <span></span><span></span><span></span>
+          </button>
+          <nav class="pill-nav burger-menu" id="pillNav" aria-label="Lookup sections" hidden></nav>
+        </div>
       </div>
     </header>
 
@@ -232,6 +253,17 @@
           for lawful, authorised verification purposes — never for stalking, harassment or any activity
           prohibited by law. Always comply with applicable regulations.
         </p>
+
+        <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end;text-align:right;">
+          <p style="margin:0;font-size:12px;color:var(--text-mid);">
+            Created by
+            <a href="https://www.kryzo.space/" target="_blank" rel="noopener noreferrer"
+               class="link-underline" style="font-weight:800;letter-spacing:.02em;">KRYZO</a>
+          </p>
+          <p style="margin:0;font-size:11.5px;color:var(--text-low);">
+            © <span id="yearLabel">2026</span> OINST · All rights reserved.
+          </p>
+        </div>
       </div>
     </footer>
   </div>

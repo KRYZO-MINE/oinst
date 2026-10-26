@@ -1,0 +1,14 @@
+{
+  "name": "OINST — Intelligence Suite",
+  "short_name": "OINST",
+  "description": "Unified dashboard for 14 intelligence lookups — Vehicle RC, Phone, UPI, PAN, Telegram, Aadhaar and more.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#04060d",
+  "theme_color": "#070b16",
+  "icons": [
+    { "src": "/favicon/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/favicon/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

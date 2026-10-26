@@ -379,8 +379,9 @@
     help.style.marginTop = '7px';
     inputWrap.appendChild(help);
 
-    const submit = el('button', 'btn btn-primary');
+    const submit = el('button', 'btn-fetch');
     submit.type = 'submit';
+    submit.setAttribute('aria-label', 'Fetch ' + tool.label);
     submit.innerHTML = svg('bolt') + '<span>Fetch</span>';
 
     const reset = el('button', 'btn btn-ghost');
@@ -431,6 +432,20 @@
   /* ------------------------------------------------------------------
      7. Fetch + render pipeline
      ------------------------------------------------------------------ */
+
+  // The circular loader stays on screen for at least this long, so the
+  // animation reads as an intentional step instead of a flash (5–10s).
+  const MIN_LOADER_MS = 5000;
+
+  function loaderNode(tool) {
+    const hold = el('div', 'loader-hold');
+    const loader = el('div', 'loader');
+    loader.appendChild(el('div', 'circle'));
+    hold.appendChild(loader);
+    hold.appendChild(el('p', '', 'Running ' + tool.label + ' lookup…'));
+    return hold;
+  }
+
   async function runTool(tool, section) {
     const { input, submit, output } = section._parts;
     const rule = RULES[tool.kind];
@@ -450,18 +465,15 @@
       return;
     }
 
-    // Loading state
+    // ---- Loading state: circular loader + disabled button ----
     submit.disabled = true;
     const originalLabel = submit.innerHTML;
-    submit.innerHTML = '<span class="spinner"></span><span>Fetching…</span>';
+    submit.innerHTML = '<span class="spinner spinner-light"></span><span>Fetching…</span>';
     output.textContent = '';
-    for (let i = 0; i < 3; i++) {
-      const sk = el('div', 'skeleton');
-      sk.style.marginBottom = '10px';
-      output.appendChild(sk);
-    }
+    output.appendChild(loaderNode(tool));
 
     const started = performance.now();
+    let outcome;
 
     try {
       const res = await fetch(`${PROXY}?cmd=${encodeURIComponent(tool.cmd)}&query=${encodeURIComponent(cleaned)}`, {
@@ -477,34 +489,40 @@
         );
       }
 
-      if (!res.ok) {
-        throw new Error(payload.error || `Request failed (HTTP ${res.status})`);
-      }
-
-      // Provider answered, but with a gate/outage notice instead of data.
-      if (payload.ok === false) {
-        renderNotice(tool, section, payload);
-        toast(payload.error || 'Provider unavailable', 'err');
-        return;
-      }
-
-      renderResult(tool, section, payload, Math.round(performance.now() - started));
-      section.classList.add('is-focus');
-      setTimeout(() => section.classList.remove('is-focus'), 1400);
+      if (!res.ok) throw new Error(payload.error || `Request failed (HTTP ${res.status})`);
+      outcome = { type: 'data', payload };
     } catch (err) {
-      output.textContent = '';
+      outcome = { type: 'error', err };
+    }
+
+    // Hold the loader long enough for the animation to be seen.
+    const elapsed = performance.now() - started;
+    if (elapsed < MIN_LOADER_MS) await new Promise((r) => setTimeout(r, MIN_LOADER_MS - elapsed));
+
+    const ms = Math.round(performance.now() - started);
+    output.textContent = '';
+
+    if (outcome.type === 'error') {
       const box = el('div', 'result-empty');
       box.style.borderColor = 'rgba(248,113,113,.45)';
       box.style.color = '#fca5a5';
       box.style.textAlign = 'left';
       box.style.lineHeight = '1.6';
-      box.textContent = '⚠ ' + (err && err.message ? err.message : 'Something went wrong.');
+      box.textContent = '⚠ ' + (outcome.err && outcome.err.message ? outcome.err.message : 'Something went wrong.');
       output.appendChild(box);
       toast('Lookup failed', 'err');
-    } finally {
-      submit.disabled = false;
-      submit.innerHTML = originalLabel;
+    } else if (outcome.payload.ok === false) {
+      // Provider answered, but with a gate/outage notice instead of data.
+      renderNotice(tool, section, outcome.payload);
+      toast(outcome.payload.error || 'Provider unavailable', 'err');
+    } else {
+      renderResult(tool, section, outcome.payload, ms);
+      section.classList.add('is-focus');
+      setTimeout(() => section.classList.remove('is-focus'), 1400);
     }
+
+    submit.disabled = false;
+    submit.innerHTML = originalLabel;
   }
 
   /**
@@ -668,6 +686,41 @@
   /* ------------------------------------------------------------------
      8. Navigation + wiring
      ------------------------------------------------------------------ */
+
+  // The nav is always a hamburger: this flips the panel open/closed.
+  let setNavOpen = () => {};
+
+  function wireBurger() {
+    const btn = document.getElementById('burgerBtn');
+    const nav = document.getElementById('pillNav');
+    if (!btn || !nav) return;
+
+    const setOpen = (open) => {
+      btn.classList.toggle('is-open', open);
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? 'Close lookup menu' : 'Open lookup menu');
+      nav.hidden = !open;
+    };
+    setNavOpen = setOpen;
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setOpen(nav.hidden);
+    });
+
+    // Close when clicking outside, or on Escape.
+    document.addEventListener('click', (e) => {
+      if (nav.hidden) return;
+      if (!nav.contains(e.target) && !btn.contains(e.target)) setOpen(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !nav.hidden) {
+        setOpen(false);
+        btn.focus();
+      }
+    });
+  }
+
   function buildNav() {
     const nav = document.getElementById('pillNav');
     if (!nav) return;
@@ -676,6 +729,7 @@
       b.type = 'button';
       b.dataset.target = tool.id;
       b.addEventListener('click', () => {
+        setNavOpen(false);
         document.getElementById(tool.id).scrollIntoView({ behavior: 'smooth', block: 'start' });
         history.replaceState(null, '', '#' + tool.id);
         const input = document.getElementById(tool.id)._parts.input;
@@ -704,10 +758,7 @@
           if (!entry.isIntersecting) return;
           pills.forEach((p) => p.classList.remove('is-active'));
           const active = byId.get(entry.target.id);
-          if (active) {
-            active.classList.add('is-active');
-            active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-          }
+          if (active) active.classList.add('is-active');
         });
       },
       { rootMargin: '-45% 0px -50% 0px', threshold: 0 }
@@ -715,11 +766,40 @@
     document.querySelectorAll('.tool').forEach((s) => io.observe(s));
   }
 
+  // Splash overlay is decorative: keep it up for ~2-3s, then fade out.
+  function initSplash() {
+    const splash = document.getElementById('splash');
+    if (!splash) return;
+
+    const MIN_MS = 2000;
+    const MAX_MS = 3000;
+    const start = performance.now();
+    let done = false;
+
+    const remove = () => {
+      if (done) return;
+      done = true;
+      splash.classList.add('is-hidden');
+      setTimeout(() => splash.remove(), 620);
+    };
+
+    const schedule = () => setTimeout(remove, Math.max(0, MIN_MS - (performance.now() - start)));
+    if (document.readyState === 'complete') schedule();
+    else window.addEventListener('load', schedule, { once: true });
+    setTimeout(remove, MAX_MS); // hard cap — never traps the user
+  }
+
   function init() {
-    // Fill in the live host in the footer / canonical hints
+    // Live host in the footer
     const hostLabel = document.getElementById('hostLabel');
     if (hostLabel) hostLabel.textContent = location.host || 'oinst.kryzo.space';
 
+    // Copyright year
+    const yearLabel = document.getElementById('yearLabel');
+    if (yearLabel) yearLabel.textContent = String(new Date().getFullYear());
+
+    initSplash();
+    wireBurger();
     buildNav();
     buildSections();
     observeSections();
