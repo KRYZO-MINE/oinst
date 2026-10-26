@@ -89,7 +89,24 @@ body::before {
 ::-webkit-scrollbar-thumb:hover { background: linear-gradient(var(--blue-600), var(--sky-500)); }
 
 /* ---------- Layout helpers ---------- */
-.shell { position: relative; z-index: 1; }
+/* ---------- Footer ---------- */
+.site-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 40;
+  border-top: 1px solid var(--line);
+  background: rgba(4, 6, 13, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.shell { 
+  position: relative; 
+  z-index: 1; 
+  padding-bottom: 120px; /* Space for fixed footer */
+}
 .wrap { width: 100%; max-width: 1220px; margin: 0 auto; padding: 0 20px; }
 
 .glass {
@@ -653,6 +670,7 @@ body::before {
 .link-underline:hover { text-decoration: underline; }
 
 @media (max-width: 640px) {
+  .shell { padding-bottom: 240px; } /* More space for stacked footer */
   .tool-head { padding: 24px 20px; flex-direction: column; align-items: flex-start; gap: 16px; }
   .tool-head .btn-xs { align-self: flex-end; }
   .tool body { padding: 24px 20px; }
