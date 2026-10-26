@@ -130,10 +130,13 @@ body::before {
   width: 40px; height: 40px;
   border-radius: 12px;
   display: grid; place-items: center;
-  background: linear-gradient(140deg, var(--blue-600), var(--sky-500));
-  box-shadow: 0 8px 26px -10px rgba(14, 165, 233, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  overflow: hidden;
+  background: rgba(16, 28, 61, 0.42);
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 26px -10px rgba(0, 0, 0, 0.5);
   color: #031024;
 }
+.brand-mark img { width: 100%; height: 100%; object-fit: cover; }
 .brand-mark svg { width: 22px; height: 22px; }
 
 .pill-nav {
